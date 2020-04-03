@@ -4,6 +4,7 @@ import 'package:wardrobe/network/Apis.dart';
 import 'package:wardrobe/network/DioManager.dart';
 import 'package:wardrobe/network/RequestMethod.dart';
 
+import 'login.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -23,32 +24,29 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
-
   //注册
   void _register() {
     final form = _formKey.currentState;
     if (form.validate()) {
       form.save();
-//      DioManager().request<RequestEntity>(RequestMethod.POST,Apis.REGISTER_URL,map: {"name":_name,"password":_pwd},
-//          successCallBack: (data){
-//            print("xxxx");
-//          },errCallBack: (error){
-//          Fluttertoast.showToast(msg: error.message);
-//          }
-//      );
+      DioManager().request(RequestMethod.POST, Apis.USER_URL,
+          map: {"mobile": _name, "password": _pwd}, successCallBack: (data) {
+        print("xxxx");
+        Fluttertoast.showToast(msg: data);
+        Navigator.push(
+            context, new MaterialPageRoute(builder: (context) => LoginPage()));
+      }, errCallBack: (error) {
+        Fluttertoast.showToast(msg: error.message);
+      });
 
-//    Fluttertoast.showToast(
-//        msg: "注册成功",
-//        toastLength: Toast.LENGTH_SHORT,
-//        gravity: ToastGravity.BOTTOM,
-//        timeInSecForIos: 1,
-//        backgroundColor: Colors.white,
-//        textColor: Colors.black,
-//        fontSize: 16.0);
-
-//        Navigator.push(
-//            context, new MaterialPageRoute(builder: (context) => LoginPage()));
-//      }
+      Fluttertoast.showToast(
+          msg: "注册成功",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0);
     }
   }
 
@@ -155,8 +153,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           if (val == null || val.isEmpty) {
                             return '请确认密码';
                           }
-                          if (val.length > 10 || val.length < 3) {
-                            return '密码长度为3-10字符之间';
+                          if ( val.length < 4) {
+                            return '密码不能少于五位数';
                           }
                           return null;
                         }),

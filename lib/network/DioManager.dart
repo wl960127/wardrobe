@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wardrobe/Config.dart';
@@ -24,10 +21,10 @@ class DioManager {
           baseUrl: Apis.BASE_URL,
           contentType: Headers.formUrlEncodedContentType,
           responseType: ResponseType.json,
-//          headers: {
-//            'token': SharedPreferences.getInstance()
-//                .then((value) => value.getString(Config.TOKEN_KEY))
-//          },
+         headers: {
+           'Authorization': SharedPreferences.getInstance()
+               .then((value) => value.getString(Config.TOKEN_KEY))
+         },
           receiveDataWhenStatusError: false,
           connectTimeout: Config.TIMEOUT_CONNECT,
           receiveTimeout: Config.TIMEOUT_RECEIVE);
@@ -49,7 +46,7 @@ class DioManager {
         response = await dio.post(path,
             data: map, options: Options(method: RequestMethodValues[method]));
       } else if (method == RequestMethod.GET) {
-        response = await dio.post(path,
+        response = await dio.get(path,
             queryParameters: map,
             options: Options(method: RequestMethodValues[method]));
       }

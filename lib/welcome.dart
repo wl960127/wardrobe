@@ -1,33 +1,16 @@
-import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:intl/date_symbol_data_local.dart';
+
 import 'package:wardrobe/page/user/login.dart';
 
-import 'page/routers.dart';
 
-void main() {
-  initializeDateFormatting().then((_) => runApp(WelcomePage()));
-  if (Platform.isAndroid) {
-    SystemUiOverlayStyle style = SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-
-        ///这是设置状态栏的图标和字体的颜色
-        ///Brightness.light  一般都是显示为白色
-        ///Brightness.dark 一般都是显示为黑色
-        statusBarIconBrightness: Brightness.light);
-    SystemChrome.setSystemUIOverlayStyle(style);
-  }
-}
 
 class WelcomePage extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
 //      theme: ThemeData(
 //        primarySwatch: Colors.blue,
 //      ),
@@ -73,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
-      routes: indexRouter,
+      // routes: indexRouter,
       home: FadeTransition(
         //透明度动画组件
         opacity: _animation, //执行动画

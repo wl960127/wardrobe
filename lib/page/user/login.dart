@@ -1,16 +1,13 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wardrobe/Config.dart';
 import 'package:wardrobe/network/Apis.dart';
 import 'package:wardrobe/network/DioManager.dart';
 import 'package:wardrobe/network/RequestMethod.dart';
-import 'package:wardrobe/page/bean/login_bean_entity.dart';
-import 'package:wardrobe/page/main.dart';
+import 'package:wardrobe/page/app.dart';
 import 'package:wardrobe/page/user/findpwd.dart';
 import 'package:wardrobe/page/user/register.dart';
+
+import '../../Config.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -99,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                         //获取用户名
                         // 校验用户名
                         validator: (val) {
-                          return val.trim().length > 5 ? null : "密码不能少于五位数";
+                          return val.trim().length > 4 ? null : "密码不能少于五位数";
                         }),
                   ],
                 ),
@@ -162,19 +159,21 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  login(String name, String pwd) {
-    DioManager().request<LoginBeanEntity>(RequestMethod.POST, Apis.LOGIN_URL,
-        map: {"name": _name, "password": _pwd}, successCallBack: (data) {
-
-      if (data.valid == true) {
+  login(String mobile, String pwd) {
+    DioManager().request(
+      RequestMethod.GET,
+      Apis.AUTH_URL,
+      map: {"mobile": _name, "password": _pwd},
+      successCallBack: (data) => {
+        print("请求成功 " + data.toString()),
         SharedPreferences.getInstance()
-            .then((value) => value.setString(Config.TOKEN_KEY, data.msg));
-
+            .then((value) => value.getString(Config.TOKEN_KEY)),
         Navigator.push(
-            context, new MaterialPageRoute(builder: (context) => MyApp()));
-      }
-    }, errCallBack: (error) {
-      print("sss");
-    });
+            context, new MaterialPageRoute(builder: (context) => MyApp())),
+      },
+      errCallBack: (err) {
+        print("请求异常 " + err.message);
+      },
+    );
   }
 }

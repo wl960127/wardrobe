@@ -26,10 +26,7 @@ class _NotePageState extends State<NotePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new AppBar(
-        title: new Text('记录'),
-        centerTitle: true,
-      ),
+  
       body: new Container(
         margin: new EdgeInsets.symmetric(
           horizontal: 5.0,

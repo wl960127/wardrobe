@@ -103,7 +103,7 @@ class _NoteInputPageState extends State<NoteInputPage> {
           GestureDetector(
             child: Container(
               width: double.infinity,
-              height: ScreenUtil().setHeight(1100.0),
+              height: ScreenUtil().setHeight(700.0),
               color: Colors.black12,
               child: _imagePath == null
                   ? Icon(Icons.add_photo_alternate)
@@ -114,7 +114,7 @@ class _NoteInputPageState extends State<NoteInputPage> {
             },
           ),
           SizedBox(
-              height: 200,
+              height:ScreenUtil().setHeight(600),
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: _widgets.length,
