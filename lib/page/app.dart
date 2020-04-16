@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'note/note.dart';
 import 'trend/trend.dart';
@@ -27,6 +27,7 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
+  DateTime _lastPressedAt; //上次点击时间
 
   static List<Widget> _widgetOptions = <Widget>[
     NotePage(),
@@ -42,36 +43,43 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    // AnnotatedRegion<SystemUiOverlayStyle>(
-    //     value: SystemUiOverlayStyle.light,
-    //     child: Material(
-    //         child: 
-            Scaffold(
-          body: Center(
-            child: _widgetOptions.elementAt(_selectedIndex),
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.calendar_today),
-                title: Text('记录'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.list),
-                title: Text('衣柜'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.trending_up),
-                title: Text('个人'),
-              ),
-            ],
-            type: BottomNavigationBarType.shifting,
-            fixedColor: Colors.black,
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
-          ),
-        // ))
-        );
+    return WillPopScope(
+      child: Scaffold(
+        body: Center(
+          child: _widgetOptions.elementAt(_selectedIndex),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_today),
+              title: Text('记录'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list),
+              title: Text('衣柜'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.trending_up),
+              title: Text('个人'),
+            ),
+          ],
+          type: BottomNavigationBarType.shifting,
+          unselectedItemColor: Colors.grey,
+          fixedColor: Colors.black,
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+        ),
+      ),
+      onWillPop: () async {
+        if (_lastPressedAt == null ||
+            DateTime.now().difference(_lastPressedAt) > Duration(seconds: 2)) {
+          //两次点击间隔超过1秒则重新计时
+          _lastPressedAt = DateTime.now();
+          Fluttertoast.showToast(msg: '再按一次退出');
+          return false;
+        }
+        return true;
+      },
+    );
   }
 }

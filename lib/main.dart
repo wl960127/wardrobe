@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-import 'package:wardrobe/page/app.dart';
+import 'package:wardrobe/welcome.dart';
 
 void main() {
   // initializeDateFormatting().then((_) => runApp(WelcomePage()));
-  initializeDateFormatting().then((_) => runApp(MyApp()));
+  initializeDateFormatting().then((_) => runApp(WelcomePage()));
   if (Platform.isAndroid) {
     SystemUiOverlayStyle style = SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,

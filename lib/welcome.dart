@@ -1,8 +1,9 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:wardrobe/page/app.dart';
 
-import 'package:wardrobe/page/user/login.dart';
+// import 'package:wardrobe/page/user/login.dart';
 
 
 
@@ -40,11 +41,12 @@ class _SplashScreenState extends State<SplashScreen>
     /**动画监听器 */
     _animationController.addStatusListener((status) {
       if(status == AnimationStatus.completed){
-        Navigator.of(context).pushAndRemoveUntil(   MaterialPageRoute(builder: (context) => LoginPage()),
+        Navigator.pushAndRemoveUntil( context,  MaterialPageRoute(builder: (context) => MyApp()),
                 (route) => route == null);
       }
     });
     _animationController.forward();
+    super.initState();
   }
 
   @override

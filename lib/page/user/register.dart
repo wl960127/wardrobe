@@ -33,20 +33,13 @@ class _RegisterPageState extends State<RegisterPage> {
           map: {"mobile": _name, "password": _pwd}, successCallBack: (data) {
         print("xxxx");
         Fluttertoast.showToast(msg: data);
-        Navigator.push(
-            context, new MaterialPageRoute(builder: (context) => LoginPage()));
+        Navigator.pushAndRemoveUntil(
+            context, new MaterialPageRoute(builder: (context) => LoginPage()), (route) => route == null);
       }, errCallBack: (error) {
         Fluttertoast.showToast(msg: error.message);
       });
 
-      Fluttertoast.showToast(
-          msg: "注册成功",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Colors.white,
-          textColor: Colors.black,
-          fontSize: 16.0);
+    
     }
   }
 

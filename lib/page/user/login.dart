@@ -168,8 +168,8 @@ class _LoginPageState extends State<LoginPage> {
         print("请求成功 " + data.toString()),
         SharedPreferences.getInstance()
             .then((value) => value.getString(Config.TOKEN_KEY)),
-        Navigator.push(
-            context, new MaterialPageRoute(builder: (context) => MyApp())),
+        Navigator.pushAndRemoveUntil(
+            context, new MaterialPageRoute(builder: (context) => MyApp()), (route) => route == null),
       },
       errCallBack: (err) {
         print("请求异常 " + err.message);
